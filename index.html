@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Güzel Fotoğraf Bulamadım</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      height: 100vh;
+      background: #0e0e0e;
+      color: white;
+      font-family: 'Poppins', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      flex-direction: column;
+      position: relative;
+    }
+
+    h1 {
+      font-size: 2rem;
+      letter-spacing: 1px;
+      color: #fff;
+      text-shadow: 0 0 10px #888;
+    }
+
+    .top-right {
+      position: fixed;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 10px;
+    }
+
+    .top-left {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      font-size: 1rem;
+      color: #aaa;
+      background: rgba(255, 255, 255, 0.05);
+      padding: 6px 10px;
+      border-radius: 8px;
+    }
+
+    button {
+      background: #222;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      padding: 10px 16px;
+      font-size: 0.95rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background: #444;
+    }
+
+    audio {
+      display: none;
+    }
+
+    .bottom-text {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 0.9rem;
+      color: #999;
+      letter-spacing: 1px;
+      user-select: none;
+      animation: fade 3s ease-in-out infinite;
+    }
+
+    @keyframes fade {
+      0% { opacity: 0; }
+      50% { opacity: 1; }
+      100% { opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="top-left" id="songInfo">Şarkı: -</div>
+
+  <div class="top-right">
+    <button id="playBtn">🎵 Şarkıyı Çal</button>
+    <button id="changeBtn" style="display: none;">🔁 Şarkıyı Değiştir</button>
+  </div>
+
+  <h1>Güzel fotoğraf bulamadım</h1>
+
+  <div class="bottom-text">By kerembkii</div>
+
+  <audio id="player"></audio>
+
+  <script>
+    const songs = [
+      "muzikler/instasarki.mp3",
+      "muzikler/instasarki2.mp3",
+      "muzikler/instasarki3.mp3",
+      "muzikler/instasarki4.mp3",
+      "muzikler/instasarki5.mp3",
+      "muzikler/instasarki6.mp3",
+      "muzikler/instasarki7.mp3",
+      "muzikler/instasarki8.mp3",
+      "muzikler/instasarki9.mp3",
+      "muzikler/instasarki10.mp3"
+    ];
+
+    const playBtn = document.getElementById('playBtn');
+    const changeBtn = document.getElementById('changeBtn');
+    const player = document.getElementById('player');
+    const songInfo = document.getElementById('songInfo');
+
+    let currentSongIndex = -1;
+
+    function playRandomSong(excludeIndex = -1) {
+      let newIndex;
+      do {
+        newIndex = Math.floor(Math.random() * songs.length);
+      } while (newIndex === excludeIndex);
+      currentSongIndex = newIndex;
+      player.src = songs[newIndex];
+      player.play();
+      songInfo.textContent = `Şarkı: ${newIndex + 1}`;
+    }
+
+    // Şarkı bitince tekrar başlat
+    player.addEventListener('ended', () => {
+      player.currentTime = 0;
+      player.play();
+    });
+
+    playBtn.addEventListener('click', () => {
+      playRandomSong();
+      playBtn.style.display = 'none';
+      changeBtn.style.display = 'block';
+    });
+
+    changeBtn.addEventListener('click', () => {
+      playRandomSong(currentSongIndex);
+    });
+  </script>
+</body>
+</html>
